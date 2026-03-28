@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mushroom Farm</title>
+
+<style>
+body {
+    margin:0;
+    font-family:Arial;
+    background:#f8fbf8;
+}
+
+/* Navbar */
+nav {
+    background:#e9f5ec;
+    color:#1b4332;
+    display:flex;
+    justify-content:space-between;
+    padding:15px 40px;
+}
+
+nav .right a {
+    margin-left:20px;
+    color:#1b4332;
+    text-decoration:none;
+    cursor:pointer;
+}
+
+/* HERO (90% IMAGE VISIBLE) */
+.hero {
+    height:90vh;
+    background: linear-gradient(rgba(0,0,0,0.1),rgba(0,0,0,0.1)),
+    url('mushroom1.jpg') center/cover;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+}
+
+/* TEXT ON IMAGE (WHITE) */
+.hero h1,
+.hero p {
+    color:white;
+}
+
+/* Button */
+.btn {
+    padding:18px 35px;
+    font-size:18px;
+    background:#52b788;
+    color:white;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+/* Sections */
+.section {
+    padding:40px;
+    text-align:center;
+    color:#1b4332;
+}
+
+ul {
+    max-width:700px;
+    margin:auto;
+    text-align:left;
+}
+
+/* Footer */
+footer {
+    background:#e9f5ec;
+    color:#1b4332;
+    text-align:center;
+    padding:20px;
+}
+
+/* About Popup */
+.modal {
+    display:none;
+    position:fixed;
+    top:70px;
+    right:20px;
+    width:330px;
+    padding:20px;
+    border-radius:15px;
+    background: linear-gradient(135deg, #ffffff, #d8f3dc, #b7e4c7);
+    box-shadow:0px 10px 30px rgba(0,0,0,0.25);
+}
+
+.modal h2 {
+    font-size:16px;
+    color:#1b4332;
+}
+
+.close {
+    float:right;
+    cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+    <h2>🍄 Mushroom Farm</h2>
+    <div class="right">
+        <a href="index.html">Home</a>
+        <a href="contact.html">Contact</a>
+        <a onclick="openAbout()">About Us</a>
+    </div>
+</nav>
+
+<div class="hero">
+    <div>
+        <h1>Fresh Organic Mushrooms</h1>
+        <p>Healthy • Hygienic • Chemical Free</p>
+        <button class="btn" onclick="window.location.href='shop.html'">View Products</button>
+    </div>
+</div>
+
+<div class="section">
+<h2>Benefits of Mushrooms</h2>
+<ul>
+<li>Rich in protein, vitamins, and essential minerals.</li>
+<li>Boosts immunity and keeps your body strong.</li>
+<li>Low in calories, perfect for a healthy lifestyle.</li>
+<li>Contains antioxidants that protect your body.</li>
+<li>Supports heart health and digestion.</li>
+</ul>
+</div>
+
+<div class="section" style="background:#edf7ef;">
+<h2>Our Quality & Trust</h2>
+<ul>
+<li>Grown in a hygienic and controlled environment.</li>
+<li>No harmful chemicals used in the farming process.</li>
+<li>Freshly harvested and safely packed.</li>
+<li>Trusted by local customers for quality and service.</li>
+<li>Premium quality available at affordable prices.</li>
+</ul>
+</div>
+
+<footer>
+<p>📞 Contact: 7209942424,9304100029</p>
+<p>📍 Address: Bawanganj, Semapur, Katihar 854115</p>
+<p>© 2026 Mushroom Farm</p>
+</footer>
+
+<div class="modal" id="aboutBox">
+<span class="close" onclick="closeAbout()">✖</span>
+
+<h2>Owner - Rohit Kumar</h2>
+<ul>
+<li>Young school student managing studies along with business.</li>
+<li>Passionate YouTuber exploring creativity at an early age.</li>
+<li>Started this venture as a part-time business initiative.</li>
+<li>Focused on delivering fresh and healthy mushrooms.</li>
+</ul>
+
+<h2>Developer - Aman Singh</h2>
+<ul>
+<li>High school student with strong interest in engineering and coding.</li>
+<li>Certified Python developer with knowledge of web development.</li>
+<li>Passionate about building real-world projects and learning tech.</li>
+<li>An all-rounder personality with creativity and technical skills.</li>
+</ul>
+
+<p style="font-size:12px; opacity:0.6; text-align:center;">
+Best friends — one is the developer, the other is the owner 🤝
+</p>
+
+</div>
+
+<script>
+function openAbout() {
+    document.getElementById("aboutBox").style.display = "block";
+}
+function closeAbout() {
+    document.getElementById("aboutBox").style.display = "none";
+}
+</script>
+
+</body>
+</html>
