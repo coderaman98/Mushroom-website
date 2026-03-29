@@ -1,10 +1,52 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shop</title>
 
 <style>
-body { font-family:Arial; margin:0; background:#f1f3f6; }
+body { font-family:Arial; margin:0; background:#f1f3f6; color:#1b4332; }
+
+/* Description */
+.description-section {
+    max-width:820px;
+    margin:0 auto 8px;
+    padding:32px 24px 24px;
+    text-align:center;
+}
+
+.description-section h2 {
+    margin:0 0 16px;
+    font-size:1.35rem;
+    color:#1b4332;
+}
+
+.description-section .lead {
+    font-size:1.05rem;
+    line-height:1.55;
+    margin:0 0 14px;
+}
+
+.description-section p {
+    line-height:1.6;
+    margin:0 auto 12px;
+    max-width:680px;
+    text-align:left;
+}
+
+.description-section .note {
+    font-size:0.95rem;
+    opacity:0.9;
+    margin-bottom:0;
+}
+
+.description-wrap {
+    background:#edf7ef;
+    border-radius:12px;
+    padding:24px 20px;
+    box-shadow:0 2px 8px rgba(27,67,50,0.06);
+}
 
 /* Header */
 .header {
@@ -46,13 +88,80 @@ img {
     border-radius:10px;
 }
 
+.product .price {
+    margin:8px 0 4px;
+    font-size:1.1rem;
+    font-weight:bold;
+}
+
+.product .per-unit {
+    font-size:0.85rem;
+    font-weight:normal;
+    opacity:0.85;
+}
+
+/* Quantity */
+.qty-control {
+    margin:12px 0 8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.qty-label {
+    font-size:0.9rem;
+    color:#1b4332;
+}
+
+.qty-stepper {
+    display:inline-flex;
+    align-items:center;
+    border:1px solid #b7e4c7;
+    border-radius:8px;
+    overflow:hidden;
+    background:#f8fbf8;
+}
+
+.qty-btn {
+    width:36px;
+    height:36px;
+    border:none;
+    background:#e9f5ec;
+    color:#1b4332;
+    font-size:1.25rem;
+    line-height:1;
+    cursor:pointer;
+    padding:0;
+}
+
+.qty-btn:hover {
+    background:#d8f3dc;
+}
+
+.qty-btn:active {
+    background:#b7e4c7;
+}
+
+.qty-num {
+    min-width:36px;
+    padding:0 6px;
+    font-size:1rem;
+    font-weight:bold;
+    text-align:center;
+}
+
 button.buy {
-    padding:10px;
+    padding:10px 16px;
     background:#fb641b;
     color:white;
     border:none;
     cursor:pointer;
     margin-top:10px;
+    border-radius:6px;
+    width:100%;
+    max-width:200px;
 }
 </style>
 </head>
@@ -65,37 +174,99 @@ button.buy {
 
 <button class="back-btn" onclick="window.location.href='index.html'">⬅ Back to Home</button>
 
+<section class="description-section" aria-labelledby="products-desc-heading">
+    <div class="description-wrap">
+        <h2 id="products-desc-heading">What you’re buying</h2>
+        <p class="lead">Every item below is grown in our hygienic farm, harvested at peak freshness, and packed with care—no harmful chemicals, just honest mushrooms at fair local prices.</p>
+        <p>Use <strong>Units</strong> to choose how many packs you want. Prices are per pack. Call or message the numbers on the home page to place an order or check today’s stock.</p>
+    </div>
+</section>
+
 <div class="products">
 
 <div class="product">
-<img src="https://images.unsplash.com/photo-1518972559570-7cc1309f3229">
+<img alt="Button mushrooms" src="https://images.unsplash.com/photo-1518972559570-7cc1309f3229">
 <h3>Button Mushroom</h3>
-<p>₹120</p>
-<button class="buy">Buy Now</button>
+<p class="price">₹120 <span class="per-unit">/ pack</span></p>
+<div class="qty-control">
+    <span class="qty-label">Units</span>
+    <div class="qty-stepper">
+        <button type="button" class="qty-btn qty-dec" aria-label="Decrease units">−</button>
+        <span class="qty-num">1</span>
+        <button type="button" class="qty-btn qty-inc" aria-label="Increase units">+</button>
+    </div>
+</div>
+<button type="button" class="buy">Buy Now</button>
 </div>
 
 <div class="product">
-<img src="https://images.unsplash.com/photo-1604908176997-4310e5d6c6c2">
+<img alt="Oyster mushrooms" src="https://images.unsplash.com/photo-1604908176997-4310e5d6c6c2">
 <h3>Oyster Mushroom</h3>
-<p>₹150</p>
-<button class="buy">Buy Now</button>
+<p class="price">₹150 <span class="per-unit">/ pack</span></p>
+<div class="qty-control">
+    <span class="qty-label">Units</span>
+    <div class="qty-stepper">
+        <button type="button" class="qty-btn qty-dec" aria-label="Decrease units">−</button>
+        <span class="qty-num">1</span>
+        <button type="button" class="qty-btn qty-inc" aria-label="Increase units">+</button>
+    </div>
+</div>
+<button type="button" class="buy">Buy Now</button>
 </div>
 
 <div class="product">
-<img src="https://images.unsplash.com/photo-1585238342024-78d387f4a707">
+<img alt="Premium mushrooms" src="https://images.unsplash.com/photo-1585238342024-78d387f4a707">
 <h3>Premium Mushroom</h3>
-<p>₹180</p>
-<button class="buy">Buy Now</button>
+<p class="price">₹180 <span class="per-unit">/ pack</span></p>
+<div class="qty-control">
+    <span class="qty-label">Units</span>
+    <div class="qty-stepper">
+        <button type="button" class="qty-btn qty-dec" aria-label="Decrease units">−</button>
+        <span class="qty-num">1</span>
+        <button type="button" class="qty-btn qty-inc" aria-label="Increase units">+</button>
+    </div>
+</div>
+<button type="button" class="buy">Buy Now</button>
 </div>
 
 <div class="product">
-<img src="https://images.unsplash.com/photo-1572441710534-6807c39f0a7b">
+<img alt="Fresh mushroom pack" src="https://images.unsplash.com/photo-1572441710534-6807c39f0a7b">
 <h3>Fresh Pack</h3>
-<p>₹100</p>
-<button class="buy">Buy Now</button>
+<p class="price">₹100 <span class="per-unit">/ pack</span></p>
+<div class="qty-control">
+    <span class="qty-label">Units</span>
+    <div class="qty-stepper">
+        <button type="button" class="qty-btn qty-dec" aria-label="Decrease units">−</button>
+        <span class="qty-num">1</span>
+        <button type="button" class="qty-btn qty-inc" aria-label="Increase units">+</button>
+    </div>
+</div>
+<button type="button" class="buy">Buy Now</button>
 </div>
 
 </div>
+
+<script>
+(function () {
+    var grid = document.querySelector('.products');
+    if (!grid) return;
+    var MIN = 1;
+    var MAX = 99;
+    grid.addEventListener('click', function (e) {
+        var btn = e.target.closest('button.qty-btn');
+        if (!btn) return;
+        var stepper = btn.closest('.qty-stepper');
+        if (!stepper) return;
+        var numEl = stepper.querySelector('.qty-num');
+        if (!numEl) return;
+        var n = parseInt(numEl.textContent, 10);
+        if (isNaN(n)) n = MIN;
+        if (btn.classList.contains('qty-dec')) n = Math.max(MIN, n - 1);
+        else if (btn.classList.contains('qty-inc')) n = Math.min(MAX, n + 1);
+        numEl.textContent = String(n);
+    });
+})();
+</script>
 
 </body>
 </html>
