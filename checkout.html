@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout — Mushroom Farm</title>
+<style>
+body { font-family: Arial, sans-serif; margin: 0; background: #f1f3f6; color: #1b4332; }
+.header {
+    background: #1b4332;
+    color: #fff;
+    padding: 15px;
+    text-align: center;
+}
+.back-btn {
+    margin: 15px;
+    padding: 10px 20px;
+    background: #1b4332;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.wrap {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 20px 16px 40px;
+    display: grid;
+    gap: 24px;
+}
+@media (min-width: 768px) {
+    .wrap { grid-template-columns: 1fr 1.1fr; align-items: start; }
+}
+.card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+}
+.card h2 {
+    margin: 0 0 14px;
+    font-size: 1.15rem;
+    border-bottom: 2px solid #e9f5ec;
+    padding-bottom: 10px;
+}
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+.summary-row strong { color: #1b4332; }
+.math-line {
+    font-size: 0.95rem;
+    color: #2d6a4f;
+    margin: 12px 0;
+    padding: 12px;
+    background: #edf7ef;
+    border-radius: 8px;
+}
+.total-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 2px solid #b7e4c7;
+    font-size: 1.15rem;
+    font-weight: bold;
+}
+.error-banner {
+    display: none;
+    background: #ffe8e6;
+    color: #7f1d1d;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    font-size: 0.9rem;
+}
+.error-banner.show { display: block; }
+label {
+    display: block;
+    margin-top: 12px;
+    font-size: 0.88rem;
+    font-weight: bold;
+}
+label:first-of-type { margin-top: 0; }
+input[type="text"],
+input[type="tel"],
+textarea,
+select {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin-top: 4px;
+    padding: 10px 12px;
+    border: 1px solid #b7e4c7;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 1rem;
+}
+textarea { min-height: 72px; resize: vertical; }
+.pincode-field {
+    max-width: 160px;
+}
+fieldset.payment-box {
+    border: 1px solid #b7e4c7;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin: 16px 0 0;
+}
+fieldset.payment-box legend {
+    font-weight: bold;
+    padding: 0 8px;
+}
+.pay-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 10px 0;
+    font-weight: normal;
+    cursor: pointer;
+}
+.pay-option input { margin-top: 4px; }
+.pay-hint {
+    font-size: 0.8rem;
+    color: #40916c;
+    margin-left: 28px;
+    margin-top: -4px;
+}
+#upiExtra { display: none; margin-top: 8px; }
+#upiExtra.show { display: block; }
+.btn-submit {
+    margin-top: 20px;
+    padding: 14px 24px;
+    background: #52b788;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 100%;
+}
+.btn-submit:hover { background: #40916c; }
+.muted { font-size: 0.85rem; color: #52796f; margin-top: 8px; }
+.empty-checkout {
+    text-align: center;
+    padding: 40px 20px;
+}
+.empty-checkout a { color: #2d6a4f; font-weight: bold; }
+</style>
+</head>
+<body>
+
+<div class="header">
+    <h2>Checkout</h2>
+</div>
+
+<button type="button" class="back-btn" onclick="window.location.href='shop.html'">⬅ Back to products</button>
+
+<div class="wrap" id="checkoutRoot">
+    <div class="card" id="summaryCard">
+        <h2>Order summary</h2>
+        <div id="errorBanner" class="error-banner" role="alert"></div>
+        <p class="summary-row"><span>Product</span><strong id="sumName">—</strong></p>
+        <p class="summary-row"><span>Units</span><strong id="sumQty">—</strong></p>
+        <p class="summary-row"><span>Price per unit</span><strong id="sumPrice">—</strong></p>
+        <div class="math-line" id="mathLine">—</div>
+        <div class="total-line">
+            <span>Amount to pay</span>
+            <span id="sumTotal">₹0</span>
+        </div>
+        <p class="muted">Calculation: number of units × price per pack.</p>
+    </div>
+
+    <div class="card" id="formCard">
+        <h2>Delivery address</h2>
+        <p class="muted" style="margin-top:0;">Fill in or edit your details below. Pincode has its own field.</p>
+        <form id="checkoutForm" novalidate>
+            <label for="fullName">Full name</label>
+            <input type="text" id="fullName" name="fullName" autocomplete="name" required maxlength="120">
+
+            <label for="phone">Mobile number</label>
+            <input type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" required pattern="[0-9+\s\-]{10,15}" placeholder="10-digit mobile">
+
+            <label for="address1">Address line 1</label>
+            <input type="text" id="address1" name="address1" autocomplete="address-line1" required maxlength="200">
+
+            <label for="address2">Address line 2 <span class="muted" style="font-weight:normal;">(optional)</span></label>
+            <input type="text" id="address2" name="address2" autocomplete="address-line2" maxlength="200">
+
+            <label for="city">City / Town</label>
+            <input type="text" id="city" name="city" autocomplete="address-level2" required maxlength="80">
+
+            <label for="state">State</label>
+            <input type="text" id="state" name="state" autocomplete="address-level1" required maxlength="80">
+
+            <label for="pincode">Pincode</label>
+            <input type="text" id="pincode" name="pincode" class="pincode-field" autocomplete="postal-code" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" minlength="6" required placeholder="6 digits">
+
+            <label for="landmark">Landmark <span class="muted" style="font-weight:normal;">(optional)</span></label>
+            <input type="text" id="landmark" name="landmark" maxlength="120">
+
+            <fieldset class="payment-box">
+                <legend>Payment</legend>
+                <p class="muted" style="margin:0 0 10px;">Choose one: payment gateway, net banking, UPI, or cash on delivery.</p>
+
+                <label class="pay-option">
+                    <input type="radio" name="payment" value="pg" required>
+                    <span>Payment gateway <small>(Debit / Credit card)</small></span>
+                </label>
+                <p class="pay-hint">Pay securely via card through our payment gateway.</p>
+
+                <label class="pay-option">
+                    <input type="radio" name="payment" value="netbanking">
+                    <span>Net banking</span>
+                </label>
+                <p class="pay-hint">Pay from your bank account using net banking.</p>
+
+                <label class="pay-option">
+                    <input type="radio" name="payment" value="upi">
+                    <span>UPI</span>
+                </label>
+                <div id="upiExtra">
+                    <label for="upiId">UPI ID <span class="muted" style="font-weight:normal;">(optional)</span></label>
+                    <input type="text" id="upiId" name="upiId" inputmode="email" autocomplete="off" placeholder="name@bank">
+                </div>
+
+                <label class="pay-option">
+                    <input type="radio" name="payment" value="cod">
+                    <span>Cash on delivery (COD)</span>
+                </label>
+                <p class="pay-hint">Pay with cash when your order is delivered.</p>
+            </fieldset>
+
+            <button type="submit" class="btn-submit">Place order</button>
+        </form>
+    </div>
+</div>
+
+<script>
+(function () {
+    var params = new URLSearchParams(window.location.search);
+    var name = params.get('name') || '';
+    var price = parseInt(params.get('price'), 10);
+    var qty = parseInt(params.get('qty'), 10);
+    var root = document.getElementById('checkoutRoot');
+    var err = document.getElementById('errorBanner');
+
+    function showError(msg) {
+        err.textContent = msg;
+        err.classList.add('show');
+    }
+
+    if (!name || isNaN(price) || price < 0 || isNaN(qty) || qty < 1) {
+        root.innerHTML =
+            '<div class="card empty-checkout"><h2>Missing product details</h2>' +
+            '<p>Go back to the shop, choose units, and tap <strong>Buy Now</strong>.</p>' +
+            '<p><a href="shop.html">Return to products</a></p></div>';
+        return;
+    }
+
+    var total = qty * price;
+    document.getElementById('sumName').textContent = decodeURIComponent(name.replace(/\+/g, ' '));
+    document.getElementById('sumQty').textContent = String(qty);
+    document.getElementById('sumPrice').textContent = '₹' + price;
+    document.getElementById('mathLine').textContent = qty + ' × ₹' + price + ' = ₹' + total;
+    document.getElementById('sumTotal').textContent = '₹' + total;
+
+    var STORAGE_KEY = 'mushroomFarmCheckoutAddress';
+    try {
+        var saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+        if (saved && typeof saved === 'object') {
+            if (saved.fullName) document.getElementById('fullName').value = saved.fullName;
+            if (saved.phone) document.getElementById('phone').value = saved.phone;
+            if (saved.address1) document.getElementById('address1').value = saved.address1;
+            if (saved.address2) document.getElementById('address2').value = saved.address2;
+            if (saved.city) document.getElementById('city').value = saved.city;
+            if (saved.state) document.getElementById('state').value = saved.state;
+            if (saved.pincode) document.getElementById('pincode').value = saved.pincode;
+            if (saved.landmark) document.getElementById('landmark').value = saved.landmark;
+        }
+    } catch (e) {}
+
+    var upiExtra = document.getElementById('upiExtra');
+    document.querySelectorAll('input[name="payment"]').forEach(function (r) {
+        r.addEventListener('change', function () {
+            upiExtra.classList.toggle('show', r.value === 'upi' && r.checked);
+        });
+    });
+
+    document.getElementById('checkoutForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        err.classList.remove('show');
+        var pin = document.getElementById('pincode').value.trim();
+        if (!/^[0-9]{6}$/.test(pin)) {
+            showError('Enter a valid 6-digit pincode.');
+            document.getElementById('pincode').focus();
+            return;
+        }
+        var pay = document.querySelector('input[name="payment"]:checked');
+        if (!pay) {
+            showError('Please choose a payment option.');
+            return;
+        }
+        var payload = {
+            fullName: document.getElementById('fullName').value.trim(),
+            phone: document.getElementById('phone').value.trim(),
+            address1: document.getElementById('address1').value.trim(),
+            address2: document.getElementById('address2').value.trim(),
+            city: document.getElementById('city').value.trim(),
+            state: document.getElementById('state').value.trim(),
+            pincode: pin,
+            landmark: document.getElementById('landmark').value.trim()
+        };
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+        } catch (x) {}
+
+        var methodLabel = { pg: 'Payment gateway', netbanking: 'Net banking', upi: 'UPI', cod: 'Cash on delivery' };
+        alert(
+            'Order summary (demo)\n\n' +
+            decodeURIComponent(name.replace(/\+/g, ' ')) + '\n' +
+            qty + ' × ₹' + price + ' = ₹' + total + '\n\n' +
+            'Deliver to:\n' + payload.fullName + '\n' + payload.address1 +
+            (payload.address2 ? ', ' + payload.address2 : '') + '\n' +
+            payload.city + ', ' + payload.state + ' — ' + payload.pincode + '\n' +
+            'Phone: ' + payload.phone + '\n\n' +
+            'Payment: ' + methodLabel[pay.value] +
+            (pay.value === 'upi' && document.getElementById('upiId').value.trim()
+                ? ' (' + document.getElementById('upiId').value.trim() + ')'
+                : '') +
+            '\n\nA team member will confirm by phone. This site does not process real payments yet.'
+        );
+    });
+})();
+</script>
+
+</body>
+</html>
